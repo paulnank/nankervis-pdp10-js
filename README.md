@@ -106,5 +106,6 @@ HAPPY BIRTHDAY BILL HARDY
 .
 ```
 
+## DECsystem-10 (KI10) at La Trobe University circa 1981
 
 ![alt text](./latrobe_ki10.jpg)
