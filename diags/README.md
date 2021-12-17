@@ -9,7 +9,7 @@ The sources for the KI10 KLAD diagnostics can be found at [http://pdp-10.trailin
 
 The KI10 specific materials for the PDP-10 CPU diagnostics all have the prefix DBK and they are in order of increasinly complex testing. So the first and simplest is dbkaa.*
 
-More advanced diagnostics also require that diamon and subrtn are loaded before execution. This is done by editing pdp10.html to include the desired files.
+More advanced diagnostics also require that diamon and subrtn are loaded before execution. This is done by editing pdp10.html to include the desired javascript files.
 
 Most of the simpler diagnostics are able to be run under TOPS-10 as below...
 
