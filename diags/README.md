@@ -14,20 +14,20 @@ More advanced diagnostics also require that diamon and subrtn are loaded before 
 Most of the simpler diagnostics are able to be run under TOPS-10 as below...
 
 
-...
+```
 Paul Nankervis - paulnank@hotmail.com
 
-Boot> **b dpa0**
+Boot> b dpa0
 Press RETURN to continue loading BOOTS...
 
-**<CR>**
+<CR>
 
 KI603 (VM) 04-21-78
-WHY RELOAD: **sched**
-DATE: **13-dec-78**
-TIME: **1121**
+WHY RELOAD: sched
+DATE: 13-dec-78
+TIME: 1121
 
-STARTUP OPTION: **quick**
+STARTUP OPTION: quick
 
 %CONTROLLER RPA IS OFF-LINE
 
@@ -37,49 +37,49 @@ STARTUP OPTION: **quick**
 
 KI603 (VM) 11:21:10 CTY system 514
 
-.**LOGIN 1,2**
+.LOGIN 1,2
 JOB 1 KI603 (VM) CTY
-Password: **failsa**
+Password: failsa
 1121    13-Dec-78       Wed
 
-.**RUN DIAMON**
+.RUN DIAMON
 
 
 \* DIAMON [DDQDC] - DECSYSTEM DIAGNOSTIC MONITOR - VER 0.15 *
 
 PROGRAM NOT FOUND - KLDDT. 
 
-DIAMON CMD - **DBKAA**
+DIAMON CMD - DBKAA
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (1) [DBKAA]
 
-DIAMON CMD - **DBKAB**
+DIAMON CMD - DBKAB
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (2) [DBKAB]
 
-DIAMON CMD - **DBKAC**
+DIAMON CMD - DBKAC
 
 PDP-10 KA10 BASIC INSTRUCTION DIAGNOSTIC (3) [DAKAC]
 
-DIAMON CMD - **DBKAD**
+DIAMON CMD - DBKAD
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (4) [DBKAD]
 
-DIAMON CMD - **DBKAE**
+DIAMON CMD - DBKAE
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (5) [DBKAE]
 
-DIAMON CMD - **DBKAF**
+DIAMON CMD - DBKAF
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (6) [DBKAF]
 
-DIAMON CMD - **DBKAG**
+DIAMON CMD - DBKAG
 
 PDP-10 KI10 BASIC INSTRUCTION DIAGNOSTIC (7) [DBKAG]
 
-DIAMON CMD - **DBKAH**
+DIAMON CMD - DBKAH
 ?
 ?Illegal instruction at user PC 030707
 
 .
-...
+```
