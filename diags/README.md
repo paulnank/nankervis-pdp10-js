@@ -7,7 +7,7 @@ These are Javascript diagnotics for the DECsystem-10 (PDP-10 KI10) emulator at: 
 
 The sources for the KI10 KLAD diagnostics can be found at [http://pdp-10.trailing-edge.com/klad_sources/index.html](http://pdp-10.trailing-edge.com/klad_sources/index.html). Javascript versions were produced from the related .sav files using a python script.
 
-The KI10 specific materials for the PDP-10 CPU diagnostics all have the prefix DBK and they are in order of increasinly complex testing. So the first and simplest is dbkaa.*
+The KI10 specific materials for the PDP-10 CPU diagnostics all have the prefix DBK and they are in order of increasingly complex testing. So the first and simplest is dbkaa.*
 
 More advanced diagnostics also require that diamon and subrtn are loaded before execution. This is done by editing pdp10.html to include the desired javascript files.
 
