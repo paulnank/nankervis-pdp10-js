@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="description" content="Javascript PDP-10 KI10 Emulator">
+  <meta name="keywords" content="PDP,PDP-10,DECsystem-10,KI10,JavaScript,Emulator,Emulation">
+  <meta name="author" content="Paul Nankervis">
+    <title>Javascript PDP-10 KI10 Emulator</title>
+    <style>
+.frame {
+    position: relative;
+    width: 1069px;
+    height: 382px;
+    border-radius: 10px;
+    background: #c0b6aa;
+    font-size: 5px;
+    line-height: 8px;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+}
+.panel {
+    position: relative;
+    width: 1053px;
+    height: 366px;
+    top: 8px;
+    left: 8px;
+    border-radius: 16px;
+    background: #2b1b17;
+    color: white;
+}
+.logo {
+    position: relative;
+    float: left;
+    height: 48px;
+    width: 286px;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+}
+.digital {
+    position: absolute;
+    height: 12px;
+    width: 100%;
+    bottom: 0;
+    border-top: 2px solid white;
+    line-height: 13px;
+    font-size: 8px;
+    color: white;
+    font-family: arial, helvetica, sans-serif;
+}
+.letter {
+    float: left;
+    height: 30px;
+    width: 13px;
+    margin-top: 2px;
+    margin-left: 2px;
+    background: white;
+    line-height: 30px;
+    font-size: 18px;
+    color: #1c4855;
+    text-align: center;
+    font-family: arial, helvetica, sans-serif;
+}
+.break {
+    clear: left;
+}
+.continue {
+    float: left;
+}
+.space,
+.small_space,
+.button_space {
+    height: 1px;
+    float: left;
+}
+.small_space {
+    width: 13px;
+}
+.button_space {
+    width: 24px;
+}
+.lamp {
+    top: 3px;
+    left: 9px;
+    height: 9px;
+    width: 9px;
+    border-radius: 50%;
+    background: #fefc3f;
+    position: relative;
+}
+.lamp_base {
+    height: 18px;
+    width: 26px;
+    float: left;
+}
+.button_lamp {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 14px 16px, #dfdfdd, #425559);
+}
+.button_insert {
+    height: 20px;
+    width: 20px;
+    border: 2px solid #99b5b8;
+    background: grey;
+}
+.button_aqua {
+    border-top: 2px solid #344949;
+    border-bottom: 2px solid #183333;
+    border-left: 2px solid #284343;
+    border-right: 2px solid #1e3939;
+    background: grey;
+}
+.button_grey {
+    border-top: 2px solid #37878e;
+    border-bottom: 2px solid #07575e;
+    border-left: 2px solid #17676e;
+    border-right: 2px solid #1d6d75;
+    background: grey;
+}
+.button_brass {
+    border-top: 2px solid #726829;
+    border-bottom: 2px solid #625819;
+    border-left: 2px solid #68643f;
+    border-right: 2px solid #726829;
+    background: grey;
+}
+.button_aqua,
+.button_grey,
+.button_brass {
+    height: 22px;
+    width: 22px;
+    float: left;
+}
+.button_blank {
+    height: 1px;
+    width: 26px;
+    float: left;
+}
+.heading {
+    font-size: 7px;
+    height: 8px;
+    float: left;
+    position: relative;
+}
+.label_name {
+    font-size: 6px;
+    border: 2px solid white;
+    float: left;
+    text-align: center;
+}
+.label {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    width: 24px;
+    float: left;
+    text-align: center;
+}
+.label_border {
+    border-left: 1px solid white;
+    height: 8px;
+    width: 0;
+    float: left;
+}
+.border_space {
+    height: 1px;
+    width: 1px;
+    float: left;
+}
+.pad_left {
+    border-left: 1px solid white;
+    width: 25px;
+}
+.pad_middle {
+    width: 26px;
+}
+.pad_right {
+    border-right: 1px solid white;
+    width: 25px;
+}
+.pad_single {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    width: 24px;
+}
+.pad_isolated {
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    width: 24px;
+}
+.pad_border {
+    border-left: 1px solid white;
+    width: 0;
+}
+.pad_left,
+.pad_middle,
+.pad_right,
+.pad_single,
+.pad_isolated,
+.pad_border {
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    height: 8px;
+    float: left;
+    text-align: center;
+}
+.action {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    width: 24px;
+    height: 18px;
+}
+.action_left {
+    border-right: 1px solid white;
+    width: 24px;
+}
+.action_right {
+    border-left: 1px solid white;
+    width: 24px;
+}
+.action_double {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    width: 50px;
+    height: 18px;
+}
+.action_border {
+    border-left: 1px solid white;
+    width: 0;
+    height: 18px;
+}
+.action,
+.action_left,
+.action_right,
+.action_double,
+.action_border {
+    border-top: 2px solid white;
+    float: left;
+    text-align: center;
+}
+.aqua {
+    background: #4e6f74;
+}
+.grey {
+    background: #65abad;
+}
+.brass {
+    background: #67633e;
+}
+.teal {
+    background: #1c4855;
+}
+.bronze {
+    background: #48491f;
+}
+    </style>
+  </head>
+  <body>
+<div class=frame>
+    <div class=panel>
+        <div class=space style="width:25px;"></div>
+        <div class=continue>
+            <div class=break style="height:26px;"></div>
+            <div class=break>
+                <div class=break>
+                    <div class=heading style="left:64px;">PI ACTIVE (PI ON)</div>
+                    <div class=heading style="left:210px;">PI IN PROGRESS (PIH)</div>
+                    <div class=heading style="left:398px;">EXEC MODE</div>
+                    <div class=heading style="left:410px;">USER MODE</div>
+                    <div class=heading style="left:486px;">KEY</div>
+                    <div class=heading style="left:562px;">STOP</div>
+                </div>
+                <div class=break>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">1</div>
+                    <div class="pad_single brass">2</div>
+                    <div class="pad_single brass">3</div>
+                    <div class="pad_single brass">4</div>
+                    <div class="pad_single brass">5</div>
+                    <div class="pad_single brass">6</div>
+                    <div class="pad_single brass">7</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">1</div>
+                    <div class="pad_single brass">2</div>
+                    <div class="pad_single brass">3</div>
+                    <div class="pad_single brass">4</div>
+                    <div class="pad_single brass">5</div>
+                    <div class="pad_single brass">6</div>
+                    <div class="pad_single brass">7</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class="pad_isolated brass">PI ON</div>
+                    <div class=button_space></div>
+                    <div class=button_blank></div>
+                    <div class=button_blank></div>
+                    <div class=pad_border></div>
+                    <div class="pad_single aqua">KERNEL</div>
+                    <div class="pad_single aqua">SUPER</div>
+                    <div class="pad_single brass">CONCEAL</div>
+                    <div class="pad_single brass">PUBLIC</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class=button_blank></div>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">PG FAIL</div>
+                    <div class="pad_single brass">MAINT</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">MEM</div>
+                    <div class="pad_single brass">PROG</div>
+                    <div class="pad_single brass">MAN</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class="pad_isolated brass">RUN</div>
+                    <div class=button_space></div>
+                    <div class="pad_isolated brass">POWER</div>
+                </div>
+                <div class=break>
+                    <div class=border_space></div>
+                    <div class=lamp_base><div id=p24 class=lamp></div></div>
+                    <div class=lamp_base><div id=p23 class=lamp></div></div>
+                    <div class=lamp_base><div id=p22 class=lamp></div></div>
+                    <div class=lamp_base><div id=p21 class=lamp></div></div>
+                    <div class=lamp_base><div id=p20 class=lamp></div></div>
+                    <div class=lamp_base><div id=p19 class=lamp></div></div>
+                    <div class=lamp_base><div id=p18 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=p14 class=lamp></div></div>
+                    <div class=lamp_base><div id=p13 class=lamp></div></div>
+                    <div class=lamp_base><div id=p12 class=lamp></div></div>
+                    <div class=lamp_base><div id=p11 class=lamp></div></div>
+                    <div class=lamp_base><div id=p10 class=lamp></div></div>
+                    <div class=lamp_base><div id=p9 class=lamp></div></div>
+                    <div class=lamp_base><div id=p8 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=p7 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=m3 class=lamp></div></div>
+                    <div class=lamp_base><div id=m2 class=lamp></div></div>
+                    <div class=lamp_base><div id=m1 class=lamp></div></div>
+                    <div class=lamp_base><div id=m0 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=x6 class=lamp></div></div>
+                    <div class=lamp_base><div id=x5 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=x4 class=lamp></div></div>
+                    <div class=lamp_base><div id=x3 class=lamp></div></div>
+                    <div class=lamp_base><div id=x2 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=x1 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=x0 class=lamp></div></div>
+                </div>
+            </div>
+            <div class=break>
+                <div class=break>
+                    <div class=heading style="left:56px;">IOB PI REQUEST (BIO PI)</div>
+                    <div class=heading style="left:192px;">PI REQUEST (PIR)</div>
+                    <div class=heading style="left:532px;">PROGRAM COUNTER</div>
+                </div>
+                <div class=break>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">1</div>
+                    <div class="pad_single brass">2</div>
+                    <div class="pad_single brass">3</div>
+                    <div class="pad_single brass">4</div>
+                    <div class="pad_single brass">5</div>
+                    <div class="pad_single brass">6</div>
+                    <div class="pad_single brass">7</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class=pad_border></div>
+                    <div class="pad_single brass">1</div>
+                    <div class="pad_single brass">2</div>
+                    <div class="pad_single brass">3</div>
+                    <div class="pad_single brass">4</div>
+                    <div class="pad_single brass">5</div>
+                    <div class="pad_single brass">6</div>
+                    <div class="pad_single brass">7</div>
+                    <div class=pad_border></div>
+                    <div class=button_space></div>
+                    <div class="pad_isolated brass">PI OK 8</div>
+                    <div class=button_space></div>
+                    <div class=pad_border></div>
+                    <div class="pad_left aqua">18</div>
+                    <div class="pad_middle aqua">19</div>
+                    <div class="pad_right aqua">20</div>
+                    <div class="pad_left brass">21</div>
+                    <div class="pad_middle brass">22</div>
+                    <div class="pad_right brass">23</div>
+                    <div class="pad_left aqua">24</div>
+                    <div class="pad_middle aqua">25</div>
+                    <div class="pad_right aqua">26</div>
+                    <div class="pad_left brass">27</div>
+                    <div class="pad_middle brass">28</div>
+                    <div class="pad_right brass">29</div>
+                    <div class="pad_left aqua">30</div>
+                    <div class="pad_middle aqua">31</div>
+                    <div class="pad_right aqua">32</div>
+                    <div class="pad_left brass">33</div>
+                    <div class="pad_middle brass">34</div>
+                    <div class="pad_right brass">35</div>
+                    <div class=pad_border></div>
+                </div>
+                <div class=break>
+                    <div class=border_space></div>
+                    <div class=lamp_base><div id=ip6 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip5 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip4 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip3 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip2 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip1 class=lamp></div></div>
+                    <div class=lamp_base><div id=ip0 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=p6 class=lamp></div></div>
+                    <div class=lamp_base><div id=p5 class=lamp></div></div>
+                    <div class=lamp_base><div id=p4 class=lamp></div></div>
+                    <div class=lamp_base><div id=p3 class=lamp></div></div>
+                    <div class=lamp_base><div id=p2 class=lamp></div></div>
+                    <div class=lamp_base><div id=p1 class=lamp></div></div>
+                    <div class=lamp_base><div id=p0 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=ip7 class=lamp></div></div>
+                    <div class=lamp_base></div>
+                    <div class=lamp_base><div id=pc17 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc16 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc15 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc14 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc13 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc12 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc11 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc10 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc9 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc8 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc7 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc6 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc5 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc4 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc3 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc2 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc1 class=lamp></div></div>
+                    <div class=lamp_base><div id=pc0 class=lamp></div></div>
+                </div>
+            </div>
+            <div class=break>
+                <div class=break>
+                    <div class=heading style="left:94px;">INSTRUCTION</div>
+                    <div class=heading style="left:214px;">ACCUMULATOR</div>
+                    <div class=heading style="left:252px;">I</div>
+                    <div class=heading style="left:302px;">INDEX</div>
+                    <div class=heading style="left:570px;">ADDRESS</div>
+                </div>
+                <div class=break>
+                    <div class=pad_border></div>
+                    <div class="pad_left grey">0</div>
+                    <div class="pad_middle grey">1</div>
+                    <div class="pad_right grey">2</div>
+                    <div class="pad_left aqua">3</div>
+                    <div class="pad_middle aqua">4</div>
+                    <div class="pad_right aqua">5</div>
+                    <div class="pad_left grey">6</div>
+                    <div class="pad_middle grey">7</div>
+                    <div class="pad_right grey">8</div>
+                    <div class="pad_left aqua">9</div>
+                    <div class="pad_middle aqua">10</div>
+                    <div class="pad_middle aqua">11</div>
+                    <div class="pad_right aqua">12</div>
+                    <div class="pad_single grey">13</div>
+                    <div class="pad_left aqua">14</div>
+                    <div class="pad_middle aqua">15</div>
+                    <div class="pad_middle aqua">16</div>
+                    <div class="pad_right aqua">17</div>
+                    <div class="pad_left grey">18</div>
+                    <div class="pad_middle grey">19</div>
+                    <div class="pad_right grey">20</div>
+                    <div class="pad_left aqua">21</div>
+                    <div class="pad_middle aqua">22</div>
+                    <div class="pad_right aqua">23</div>
+                    <div class="pad_left grey">24</div>
+                    <div class="pad_middle grey">25</div>
+                    <div class="pad_right grey">26</div>
+                    <div class="pad_left aqua">27</div>
+                    <div class="pad_middle aqua">28</div>
+                    <div class="pad_right aqua">29</div>
+                    <div class="pad_left grey">30</div>
+                    <div class="pad_middle grey">31</div>
+                    <div class="pad_right grey">32</div>
+                    <div class="pad_left aqua">33</div>
+                    <div class="pad_middle aqua">34</div>
+                    <div class="pad_right aqua">35</div>
+                    <div class=pad_border></div>
+                </div>
+                <div class=break>
+                    <div class=border_space></div>
+                    <div class=lamp_base><div id=i35 class=lamp></div></div>
+                    <div class=lamp_base><div id=i34 class=lamp></div></div>
+                    <div class=lamp_base><div id=i33 class=lamp></div></div>
+                    <div class=lamp_base><div id=i32 class=lamp></div></div>
+                    <div class=lamp_base><div id=i31 class=lamp></div></div>
+                    <div class=lamp_base><div id=i30 class=lamp></div></div>
+                    <div class=lamp_base><div id=i29 class=lamp></div></div>
+                    <div class=lamp_base><div id=i28 class=lamp></div></div>
+                    <div class=lamp_base><div id=i27 class=lamp></div></div>
+                    <div class=lamp_base><div id=i26 class=lamp></div></div>
+                    <div class=lamp_base><div id=i25 class=lamp></div></div>
+                    <div class=lamp_base><div id=i24 class=lamp></div></div>
+                    <div class=lamp_base><div id=i23 class=lamp></div></div>
+                    <div class=lamp_base><div id=i22 class=lamp></div></div>
+                    <div class=lamp_base><div id=i21 class=lamp></div></div>
+                    <div class=lamp_base><div id=i20 class=lamp></div></div>
+                    <div class=lamp_base><div id=i19 class=lamp></div></div>
+                    <div class=lamp_base><div id=i18 class=lamp></div></div>
+                    <div class=lamp_base><div id=i17 class=lamp></div></div>
+                    <div class=lamp_base><div id=i16 class=lamp></div></div>
+                    <div class=lamp_base><div id=i15 class=lamp></div></div>
+                    <div class=lamp_base><div id=i14 class=lamp></div></div>
+                    <div class=lamp_base><div id=i13 class=lamp></div></div>
+                    <div class=lamp_base><div id=i12 class=lamp></div></div>
+                    <div class=lamp_base><div id=i11 class=lamp></div></div>
+                    <div class=lamp_base><div id=i10 class=lamp></div></div>
+                    <div class=lamp_base><div id=i9 class=lamp></div></div>
+                    <div class=lamp_base><div id=i8 class=lamp></div></div>
+                    <div class=lamp_base><div id=i7 class=lamp></div></div>
+                    <div class=lamp_base><div id=i6 class=lamp></div></div>
+                    <div class=lamp_base><div id=i5 class=lamp></div></div>
+                    <div class=lamp_base><div id=i4 class=lamp></div></div>
+                    <div class=lamp_base><div id=i3 class=lamp></div></div>
+                    <div class=lamp_base><div id=i2 class=lamp></div></div>
+                    <div class=lamp_base><div id=i1 class=lamp></div></div>
+                    <div class=lamp_base><div id=i0 class=lamp></div></div>
+                </div>
+            </div>
+            <div class=break>
+                <div class=break>
+                    <div class=heading style="left:392px;">MEMORY DATA</div>
+                    <div class=heading style="left:452px;">PROGRAM DATA</div>
+                </div>
+                <div class=break>
+                    <div class=pad_border></div>
+                    <div class="pad_left grey">0</div>
+                    <div class="pad_middle grey">1</div>
+                    <div class="pad_right grey">2</div>
+                    <div class="pad_left aqua">3</div>
+                    <div class="pad_middle aqua">4</div>
+                    <div class="pad_right aqua">5</div>
+                    <div class="pad_left grey">6</div>
+                    <div class="pad_middle grey">7</div>
+                    <div class="pad_right grey">8</div>
+                    <div class="pad_left aqua">9</div>
+                    <div class="pad_middle aqua">10</div>
+                    <div class="pad_right aqua">11</div>
+                    <div class="pad_left grey">12</div>
+                    <div class="pad_middle grey">13</div>
+                    <div class="pad_right grey">14</div>
+                    <div class="pad_left aqua">15</div>
+                    <div class="pad_middle aqua">16</div>
+                    <div class="pad_right aqua">17</div>
+                    <div class="pad_left grey">18</div>
+                    <div class="pad_middle grey">19</div>
+                    <div class="pad_right grey">20</div>
+                    <div class="pad_left aqua">21</div>
+                    <div class="pad_middle aqua">22</div>
+                    <div class="pad_right aqua">23</div>
+                    <div class="pad_left grey">24</div>
+                    <div class="pad_middle grey">25</div>
+                    <div class="pad_right grey">26</div>
+                    <div class="pad_left aqua">27</div>
+                    <div class="pad_middle aqua">28</div>
+                    <div class="pad_right aqua">29</div>
+                    <div class="pad_left grey">30</div>
+                    <div class="pad_middle grey">31</div>
+                    <div class="pad_right grey">32</div>
+                    <div class="pad_left aqua">33</div>
+                    <div class="pad_middle aqua">34</div>
+                    <div class="pad_right aqua">35</div>
+                    <div class=pad_border></div>
+                </div>
+                <div class=break>
+                    <div class=border_space></div>
+                    <div class=lamp_base><div id=d35 class=lamp></div></div>
+                    <div class=lamp_base><div id=d34 class=lamp></div></div>
+                    <div class=lamp_base><div id=d33 class=lamp></div></div>
+                    <div class=lamp_base><div id=d32 class=lamp></div></div>
+                    <div class=lamp_base><div id=d31 class=lamp></div></div>
+                    <div class=lamp_base><div id=d30 class=lamp></div></div>
+                    <div class=lamp_base><div id=d29 class=lamp></div></div>
+                    <div class=lamp_base><div id=d28 class=lamp></div></div>
+                    <div class=lamp_base><div id=d27 class=lamp></div></div>
+                    <div class=lamp_base><div id=d26 class=lamp></div></div>
+                    <div class=lamp_base><div id=d25 class=lamp></div></div>
+                    <div class=lamp_base><div id=d24 class=lamp></div></div>
+                    <div class=lamp_base><div id=d23 class=lamp></div></div>
+                    <div class=lamp_base><div id=d22 class=lamp></div></div>
+                    <div class=lamp_base><div id=d21 class=lamp></div></div>
+                    <div class=lamp_base><div id=d20 class=lamp></div></div>
+                    <div class=lamp_base><div id=d19 class=lamp></div></div>
+                    <div class=lamp_base><div id=d18 class=lamp></div></div>
+                    <div class=lamp_base><div id=d17 class=lamp></div></div>
+                    <div class=lamp_base><div id=d16 class=lamp></div></div>
+                    <div class=lamp_base><div id=d15 class=lamp></div></div>
+                    <div class=lamp_base><div id=d14 class=lamp></div></div>
+                    <div class=lamp_base><div id=d13 class=lamp></div></div>
+                    <div class=lamp_base><div id=d12 class=lamp></div></div>
+                    <div class=lamp_base><div id=d11 class=lamp></div></div>
+                    <div class=lamp_base><div id=d10 class=lamp></div></div>
+                    <div class=lamp_base><div id=d9 class=lamp></div></div>
+                    <div class=lamp_base><div id=d8 class=lamp></div></div>
+                    <div class=lamp_base><div id=d7 class=lamp></div></div>
+                    <div class=lamp_base><div id=d6 class=lamp></div></div>
+                    <div class=lamp_base><div id=d5 class=lamp></div></div>
+                    <div class=lamp_base><div id=d4 class=lamp></div></div>
+                    <div class=lamp_base><div id=d3 class=lamp></div></div>
+                    <div class=lamp_base><div id=d2 class=lamp></div></div>
+                    <div class=lamp_base><div id=d1 class=lamp></div></div>
+                    <div class=lamp_base><div id=d0 class=lamp></div></div>
+                </div>
+            </div>
+            <div class=break style="height:4px;"></div>
+            <div class=break>
+                <div class=space style="width:286px;"></div>
+                <div class=continue>
+                    <div class=break>
+                        <div class="label_name aqua" style="width:50px;">PAGING</div>
+                        <div class=button_space></div>
+                        <div class="label_name grey" style="width:570px;">ADDRESS SWITCHES</div>
+                        <div class=small_space></div>
+                        <div class="label_name grey" style="width:50px;">ADDRESS</div>
+                     </div>
+                    <div class=break>
+                        <div class=label_border></div>
+                        <div class="label grey">EXEC</div>
+                        <div class="label aqua">USER</div>
+                        <div class=label_border></div>
+                        <div class=button_space></div>
+                        <div class=label_border></div>
+                        <div class="label grey">14</div>
+                        <div class="label aqua">15</div>
+                        <div class="label aqua">16</div>
+                        <div class="label aqua">17</div>
+                        <div class="label grey">18</div>
+                        <div class="label grey">19</div>
+                        <div class="label grey">20</div>
+                        <div class="label aqua">21</div>
+                        <div class="label aqua">22</div>
+                        <div class="label aqua">23</div>
+                        <div class="label grey">24</div>
+                        <div class="label grey">25</div>
+                        <div class="label grey">26</div>
+                        <div class="label aqua">27</div>
+                        <div class="label aqua">28</div>
+                        <div class="label aqua">29</div>
+                        <div class="label grey">30</div>
+                        <div class="label grey">31</div>
+                        <div class="label grey">32</div>
+                        <div class="label aqua">33</div>
+                        <div class="label aqua">34</div>
+                        <div class="label aqua">35</div>
+                        <div class=label_border></div>
+                        <div class=small_space></div>
+                        <div class=label_border></div>
+                        <div class="label grey">CLEAR</div>
+                        <div class="label aqua">LOAD</div>
+                        <div class=label_border></div>
+                    </div>
+                    <div class=break>
+                        <div class=border_space></div>
+                        <div class=button_grey><div onclick="clickOperatingSwitch(3);" class=button_insert><div id=os3 class=button_lamp></div></div></div>
+                        <div class=button_aqua><div onclick="clickOperatingSwitch(2);" class=button_insert><div id=os2 class=button_lamp></div></div></div>
+                        <div class=button_blank></div>
+                        <div class=button_grey onclick="clickAddSwitch(21);"><div class=button_insert><div id=sa21 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(20);"><div class=button_insert><div id=sa20 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(19);"><div class=button_insert><div id=sa19 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(18);"><div class=button_insert><div id=sa18 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(17);"><div class=button_insert><div id=sa17 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(16);"><div class=button_insert><div id=sa16 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(15);"><div class=button_insert><div id=sa15 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(14);"><div class=button_insert><div id=sa14 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(13);"><div class=button_insert><div id=sa13 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(12);"><div class=button_insert><div id=sa12 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(11);"><div class=button_insert><div id=sa11 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(10);"><div class=button_insert><div id=sa10 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(9);"><div class=button_insert><div id=sa9 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(8);"><div class=button_insert><div id=sa8 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(7);"><div class=button_insert><div id=sa7 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(6);"><div class=button_insert><div id=sa6 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(5);"><div class=button_insert><div id=sa5 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(4);"><div class=button_insert><div id=sa4 class=button_lamp></div></div></div>
+                        <div class=button_grey onclick="clickAddSwitch(3);"><div class=button_insert><div id=sa3 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(2);"><div class=button_insert><div id=sa2 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(1);"><div class=button_insert><div id=sa1 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickAddSwitch(0);"><div class=button_insert><div id=sa0 class=button_lamp></div></div></div>
+                        <div class=border_space></div>
+                        <div class=small_space></div>
+                        <div class=border_space></div>
+                        <div class=button_grey onclick="flickSwitchLight('b_ac'); panel.addressSwitches = updateSwitchLights(panel.addressSwitches, 0, 'sa');"><div class=button_insert ><div id=b_ac class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_as'); panel.addressSwitches = updateSwitchLights(panel.addressSwitches, right(panel.dataLights), 'sa');"><div class=button_insert ><div id=b_as class=button_lamp></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class=break style="height:12px;"></div>
+            <div class=break>
+                <div class=break>
+                    <div class="label_name aqua" style="width:934px;">DATA SWITCHES</div>
+                    <div class=small_space></div>
+                    <div class="label_name aqua" style="width:50px;">DATA</div>
+                 </div>
+                <div class=break>
+                    <div class=label_border></div>
+                    <div class="label grey">0</div>
+                    <div class="label grey">1</div>
+                    <div class="label grey">2</div>
+                    <div class="label aqua">3</div>
+                    <div class="label aqua">4</div>
+                    <div class="label aqua">5</div>
+                    <div class="label grey">6</div>
+                    <div class="label grey">7</div>
+                    <div class="label grey">8</div>
+                    <div class="label aqua">9</div>
+                    <div class="label aqua">10</div>
+                    <div class="label aqua">11</div>
+                    <div class="label grey">12</div>
+                    <div class="label grey">13</div>
+                    <div class="label grey">14</div>
+                    <div class="label aqua">15</div>
+                    <div class="label aqua">16</div>
+                    <div class="label aqua">17</div>
+                    <div class="label grey">18</div>
+                    <div class="label grey">19</div>
+                    <div class="label grey">20</div>
+                    <div class="label aqua">21</div>
+                    <div class="label aqua">22</div>
+                    <div class="label aqua">23</div>
+                    <div class="label grey">24</div>
+                    <div class="label grey">25</div>
+                    <div class="label grey">26</div>
+                    <div class="label aqua">27</div>
+                    <div class="label aqua">28</div>
+                    <div class="label aqua">29</div>
+                    <div class="label grey">30</div>
+                    <div class="label grey">31</div>
+                    <div class="label grey">32</div>
+                    <div class="label aqua">33</div>
+                    <div class="label aqua">34</div>
+                    <div class="label aqua">35</div>
+                    <div class=label_border></div>
+                    <div class=small_space></div>
+                    <div class=label_border></div>
+                    <div class="label grey">CLEAR</div>
+                    <div class="label aqua">LOAD</div>
+                    <div class=label_border></div>
+                </div>
+                <div class=break>
+                    <div class=border_space></div>
+                    <div class=button_grey onclick="clickDataSwitch(35);"><div class=button_insert><div id=ds35 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(34);"><div class=button_insert><div id=ds34 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(33);"><div class=button_insert><div id=ds33 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(32);"><div class=button_insert><div id=ds32 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(31);"><div class=button_insert><div id=ds31 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(30);"><div class=button_insert><div id=ds30 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(29);"><div class=button_insert><div id=ds29 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(28);"><div class=button_insert><div id=ds28 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(27);"><div class=button_insert><div id=ds27 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(26);"><div class=button_insert><div id=ds26 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(25);"><div class=button_insert><div id=ds25 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(24);"><div class=button_insert><div id=ds24 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(23);"><div class=button_insert><div id=ds23 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(22);"><div class=button_insert><div id=ds22 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(21);"><div class=button_insert><div id=ds21 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(20);"><div class=button_insert><div id=ds20 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(19);"><div class=button_insert><div id=ds19 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(18);"><div class=button_insert><div id=ds18 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(17);"><div class=button_insert><div id=ds17 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(16);"><div class=button_insert><div id=ds16 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(15);"><div class=button_insert><div id=ds15 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(14);"><div class=button_insert><div id=ds14 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(13);"><div class=button_insert><div id=ds13 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(12);"><div class=button_insert><div id=ds12 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(11);"><div class=button_insert><div id=ds11 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(10);"><div class=button_insert><div id=ds10 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(9);"><div class=button_insert><div id=ds9 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(8);"><div class=button_insert><div id=ds8 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(7);"><div class=button_insert><div id=ds7 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(6);"><div class=button_insert><div id=ds6 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(5);"><div class=button_insert><div id=ds5 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(4);"><div class=button_insert><div id=ds4 class=button_lamp></div></div></div>
+                    <div class=button_grey onclick="clickDataSwitch(3);"><div class=button_insert><div id=ds3 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(2);"><div class=button_insert><div id=ds2 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(1);"><div class=button_insert><div id=ds1 class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="clickDataSwitch(0);"><div class=button_insert><div id=ds0 class=button_lamp></div></div></div>
+                    <div class=border_space></div>
+                    <div class=small_space></div>
+                    <div class=border_space></div>
+                    <div class=button_grey onclick="flickSwitchLight('b_dc'); panel.dataSwitches = updateSwitchLights(panel.dataSwitches, 0, 'ds');"><div class=button_insert ><div id=b_dc class=button_lamp></div></div></div>
+                    <div class=button_aqua onclick="flickSwitchLight('b_ds'); panel.dataSwitches = updateSwitchLights(panel.dataSwitches, panel.dataLights, 'ds');"><div class=button_insert ><div id=b_ds class=button_lamp></div></div></div>
+                </div>
+            </div>
+            <div class=break style="height:12px;"></div>
+            <div class=break>
+                <div class=break>
+                    <div class="logo teal">
+                        <div class=space style="width:4px;"></div>
+                        <div class=continue>
+                            <div class=letter>d</div><div class=letter>i</div><div class=letter>g</div><div class=letter>i</div><div class=letter>t</div><div class=letter>a</div><div class=letter>l</div>
+                        </div>
+                        <div class=space style="width:48px;"></div>
+                        <div style="position:relative;top:3px;">
+                            <img src="pdp10.svg" alt="pdp10 logo" width=82>
+                        </div>
+                        <div class="digital bronze">
+                            <div class=space style="width:4px;"></div>
+                            <div class=continue>&nbsp; digital equipment corporation &bull; maynard, massachusetts</div>
+                        </div>
+                    </div>
+                </div>
+                <div class=space style="width:48px;"></div>
+                <div class=continue>
+                    <div class=break>
+                        <div class=action_border></div>
+                        <div class="action bronze">SINGLE<BR>INST</div>
+                        <div class="action teal">SINGLE<BR>PULSER</div>
+                        <div class="action_double bronze">
+                            <div>STOP</div>
+                            <div class="action_left bronze">PAR</div>
+                            <div class="action_right teal">NXM</div>
+                        </div>
+                        <div class="action bronze">REPEAT</div>
+                        <div class=action_border></div>
+                        <div class=button_space></div>
+                        <div class=action_border></div>
+                        <div class="action_double bronze">
+                            <div>FETCH</div>
+                            <div class="action_left teal">INST</div>
+                            <div class="action_right bronze">DATA</div>
+                        </div>
+                        <div class="action teal">WRITE</div>
+                        <div class="action_double bronze">
+                            <div>ADDRESS</div>
+                            <div class="action_left bronze">STOP</div>
+                            <div class="action_right teal">BREAK</div>
+                        </div>
+                        <div class=action_border></div>
+                        <div class=button_space></div>
+                        <div class=action_border></div>
+                        <div class="action bronze">READ IN</div>
+                        <div class="action teal">START</div>
+                        <div class="action bronze">CONT</div>
+                        <div class="action teal">STOP</div>
+                        <div class="action bronze">RESET</div>
+                        <div class="action teal">XCT</div>
+                        <div class="action_double bronze">
+                            <div>EXAMINE</div>
+                            <div class="action_left bronze">THIS</div>
+                            <div class="action_right teal">NEXT</div>
+                        </div>
+                        <div class=action_border></div>
+                        <div class=button_space></div>
+                        <div class=action_border></div>
+                        <div class="action_double bronze">
+                            <div>DEPOSIT</div>
+                            <div class="action_left bronze">THIS</div>
+                            <div class="action_right teal">NEXT</div>
+                        </div>
+                        <div class=action_border></div>
+                    </div>
+                    <div class=break>
+                        <div class=border_space></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_single');"><div class=button_insert><div id=b_single class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_pulser');"><div class=button_insert><div id=b_pulser class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="clickOperatingSwitch(1);"><div class=button_insert><div id=os1 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickOperatingSwitch(0);"><div class=button_insert><div id=os0 class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_repeat');"><div class=button_insert><div id=b_repeat class=button_lamp></div></div></div>
+                        <div class=button_blank></div>
+                        <div class=button_aqua onclick="clickOperatingSwitch(8);"><div class=button_insert><div id=os8 class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="clickOperatingSwitch(7);"><div class=button_insert><div id=os7 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickOperatingSwitch(6);"><div class=button_insert><div id=os6 class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="clickOperatingSwitch(5);"><div class=button_insert><div id=os5 class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="clickOperatingSwitch(4);"><div class=button_insert><div id=os4 class=button_lamp></div></div></div>
+                        <div class=button_blank></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_readin');"><div class=button_insert><div id=b_readin class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_start'); clearFlags(flagUSR | flagPUB); CPU.PC=panel.addressSwitches; CPU.miscLights=3; if (CPU.halt) {CPU.halt=0; main();}"><div class=button_insert><div id=b_start class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_cont'); if (CPU.halt) {CPU.miscLights=3; CPU.halt=0; main();}"><div class=button_insert><div id=b_cont class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_stop'); CPU.miscLights|=4; CPU.miscLights&=~2; CPU.halt=2;"><div class=button_insert><div id=b_stop class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_reset'); resetCPU(); CPU.miscLights=1; CPU.halt=2;"><div class=button_insert><div id=b_reset class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_xct'); XCT(panel.dataSwitches, 0);"><div class=button_insert><div id=b_xct class=button_lamp></div></div></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_et'); panelExamine(0);"><div class=button_insert><div id=b_et class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_en'); panelExamine(1);"><div class=button_insert><div id=b_en class=button_lamp></div></div></div>
+                        <div class=button_blank></div>
+                        <div class=button_brass onclick="flickSwitchLight('b_dt'); panelDeposit(0);"><div class=button_insert><div id=b_dt class=button_lamp></div></div></div>
+                        <div class=button_aqua onclick="flickSwitchLight('b_dn'); panelDeposit(1);"><div class=button_insert><div id=b_dn class=button_lamp></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <p style="clear:both">console
+      <br>
+      <textarea id=0 autofocus cols=132 rows=24 style="font-family:'Courier New',Courier,'Lucida Console',Monaco,monospace;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      <br>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(3))">Ctrl/C</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(4))">Ctrl/D</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(8))">Ctrl/H</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(10))">LF</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(17))">Ctrl/Q</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(19))">Ctrl/S</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(20))">Ctrl/T</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(26))">Ctrl/Z</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(27))">ESC</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(9))">TAB</button>
+      <button onclick="vt52Input(vt52LastUnit,String.fromCharCode(0))">Break</button>
+      <button onclick="vt52Put(0,10);boot();">REBOOT</button>
+    </p>
+    <p>
+    <div id="lpt"></div>
+    </p>
+<script src="vt52.js"></script>
+<script src="fpp10.js"></script>
+<script src="pdp10.js"></script>
+<script src="io.js"></script>
+<script src="boot.js"></script>
+<script>
+function setSwitchLight(id, state) {
+    "use strict";
+    var elementId = document.getElementById(id).style;
+    if (state) {
+        elementId["border-radius"] = "0";
+        elementId.background = "#fefe80";
+    } else {
+        elementId["border-radius"] = "50%";
+        elementId.background = "radial-gradient(circle at 14px 16px, #dfdfdd, #425559)";
+    }
+}
+
+function flickSwitchLight(id) {
+    "use strict";
+    setSwitchLight(id, 1); // Turn on
+    setTimeout(setSwitchLight, 400, id, 0); // and off again after 400ms
+}
+
+function updateSwitchLights(oldMask, newMask, idName) {
+    "use strict";
+    var bit, result = newMask;
+    for (bit = 0; newMask != oldMask; bit++, newMask = Math.trunc(newMask / 2), oldMask = Math.trunc(oldMask / 2)) {
+        if (newMask % 2) {
+            if (!(oldMask % 2)) {
+                setSwitchLight(idName + bit, 1);
+            }
+        } else {
+            if (oldMask % 2) {
+                setSwitchLight(idName + bit, 0);
+            }
+        }
+    }
+    return result;
+}
+
+function clickSwitch(idName, bit, data) {
+    "use strict";
+    var weight, state;
+    weight = power2(bit);
+    state = Math.trunc(data / weight) % 2;
+    if (state) {
+        data -= weight;
+    } else {
+        data += weight;
+    }
+    setSwitchLight(idName + bit, 1 - state);
+    return data;
+}
+
+function clickAddSwitch(bit) {
+    "use strict";
+    panel.addressSwitches = clickSwitch("sa", bit, panel.addressSwitches);
+}
+
+function clickDataSwitch(bit) {
+    "use strict";
+    panel.dataSwitches = clickSwitch("ds", bit, panel.dataSwitches);
+}
+
+function clickOperatingSwitch(bit) {
+    "use strict";
+    panel.operatingSwitches = clickSwitch("os", bit, panel.operatingSwitches);
+}
+
+function updateAddressSwitches(newMask) {
+    "use strict";
+    panel.addressSwitches = updateSwitchLights(panel.addressSwitches, newMask, "sa");
+}
+
+function updateOperatingSwitches(newMask, bitMask) {
+    "use strict";
+    panel.operatingSwitches = updateSwitchLights(panel.operatingSwitches, (panel.operatingSwitches & ~bitMask) | (newMask & bitMask), "os");
+}
+
+function updateDataSwitches(newMask) {
+    "use strict";
+    panel.dataSwitches = updateSwitchLights(panel.dataSwitches, newMask, "ds");
+}
+
+function panelExamine(step) {
+    "use strict";
+    if (step) {
+        panel.addressSwitches = updateSwitchLights(panel.addressSwitches, panel.addressSwitches + 1, 'sa');
+    }
+    // Need to handle paging buttons - one day
+    CPU.dataLights = CPU.memory[panel.addressSwitches];
+}
+
+function panelDeposit(step) {
+    "use strict";
+    if (step) {
+        panel.addressSwitches = updateSwitchLights(panel.addressSwitches, panel.addressSwitches + 1, 'sa');
+    }
+    // Need to handle paging buttons
+    CPU.memory[panel.addressSwitches] = panel.dataSwitches;
+    CPU.dataLights = panel.dataSwitches;
+}
+
+function evenParity(code) {
+    "use strict";
+    var count = 0,
+        mask = 64;
+    do {
+        if (code & mask) {
+            count++;
+        }
+        mask >>>= 1;
+    } while (mask);
+    return code; // (code & 127) | (count % 2 ? 128 : 0);
+}
+
+function ttyInput(unit, ch) {
+    "use strict";
+    if (tty.coniStatus & BIT30) { // Done set - last character not yet used
+        return 0; // reject character
+    }
+    tty.inputChar = evenParity(ch);
+    tty.coniStatus |= BIT30; // Set tty input done
+    interrupt(0, 0, deviceTTY, tty.coniStatus);
+    return 1; // accept character
+}
+
+vt52Initialize(0, document.getElementById('0'), ttyInput);
+
+// operating switches
+// pi     0       1     2     3      4      5       6       7       8
+// coni Ifetch Dfetch Write Astop Abreak Epaging Upaging PARstop NXMstop
+
+var panel = {
+    PCounterLights: 0x3ffff, // The current PC lights
+    PCounterLightsId: [], // DOM id's for PC lights
+    addressSwitches: 0, // The current address switches
+    dataId: [], // DOM id's for display Lights
+    dataLights: 0xffff, // Current data lights (d0-d35)
+    dataSwitches: 0, // The current data switches
+    instructionLights: 0x3fffff, // The current instruction lights (i0-i35)
+    instructionLightsId: [], // DOM id's for instruction lights
+    miscLights: 0x7f, // power, run, stop, key...
+    miscLightsId: [], // DOM id's for power, run, stop, key...
+    modeLights: 0xf, // kernel, super, conceal, public
+    modeLightsId: [], // DOM id's for kernel, super, conceal, public
+    operatingSwitches: 0, // Operating switches used by coni pi
+    pendingLights: 0xff,
+    pendingLightsId: [],
+    priorityLights: 0x1ffffff,
+    priorityLightsId: []
+};
+
+function initPanel(idArray, idName, idCount) {
+    "use strict";
+    var id, elementId, initVal = 0;
+    for (id = 0; id < idCount; id++) {
+        if ((elementId = document.getElementById(idName + id))) {
+            idArray[id] = elementId.style;
+        } else {
+            idArray[id] = {}; // If element not present make a dummy
+        }
+        initVal = initVal * 2 + 1;
+    }
+    return initVal;
+}
+
+function updateLights() {
+    "use strict";
+    var modeLights, pendingLights;
+
+    function updatePanel(oldMask, newMask, idArray) { // Update lights to match newMask
+        var gid, bitMask, changeMask, id, result = newMask;
+        for (gid = 0; newMask != oldMask; gid += 18) { // Do 18 bits at a time
+            bitMask = newMask & 0x3ffff;
+            changeMask = (oldMask ^ bitMask) & 0x3ffff;
+            for (id = gid; changeMask; id++) {
+                if (changeMask & 1) {
+                    if (bitMask & 1) {
+                        //idArray[id].visibility = 'visible';
+                        idArray[id].background = '#fefc3f';
+                    } else {
+                        //idArray[id].visibility = 'hidden';
+                        idArray[id].background = 'black';
+                    }
+                }
+                bitMask >>>= 1;
+                changeMask >>>= 1;
+            }
+            newMask = Math.trunc(newMask / 0x40000); // Next 18 bits...
+            oldMask = Math.trunc(oldMask / 0x40000);
+        }
+        return result;
+    }
+    if (panel.priorityLights != pi.coniStatus) {
+        panel.priorityLights = updatePanel(panel.priorityLights, pi.coniStatus, panel.priorityLightsId);
+    }
+    if (panel.miscLights != CPU.miscLights) {
+        panel.miscLights = updatePanel(panel.miscLights, CPU.miscLights, panel.miscLightsId);
+    }
+    if (panel.pendingLights != (pendingLights = getPendingLights())) {
+        panel.pendingLights = updatePanel(panel.pendingLights, pendingLights, panel.pendingLightsId);
+    }
+    panel.PCounterLights = updatePanel(panel.PCounterLights, CPU.PC, panel.PCounterLightsId);
+    panel.dataLights = updatePanel(panel.dataLights, CPU.dataLights, panel.dataId);
+    panel.instructionLights = updatePanel(panel.instructionLights, CPU.instructionLights, panel.instructionLightsId);
+    if (CPU.userMode) {
+        modeLights = 2;
+    } else {
+        modeLights = 8;
+    }
+    if (inPublicMode()) {
+        modeLights >>>= 1;
+    }
+    if (panel.modeLights != modeLights) {
+        panel.modeLights = updatePanel(panel.modeLights, modeLights, panel.modeLightsId);
+    }
+    requestAnimationFrame(updateLights);
+}
+
+panel.instructionLights = initPanel(panel.instructionLightsId, "i", 36);
+panel.dataLights = initPanel(panel.dataId, "d", 36);
+panel.priorityLights = initPanel(panel.priorityLightsId, "p", 25);
+panel.pendingLights = initPanel(panel.pendingLightsId, "ip", 8);
+panel.PCounterLights = initPanel(panel.PCounterLightsId, "pc", 18);
+panel.modeLights = initPanel(panel.modeLightsId, "m", 4);
+panel.miscLights = initPanel(panel.miscLightsId, "x", 7);
+setTimeout(updateLights, 300);
+</script>
+
+
+
+<h3>DECsystem-10 (PDP-10 KI10) Emulator</h3>
+<p>This emulator follows on from my earlier <a href='../pdp11/pdp11.html'>PDP-11</a> emulator and was written after considerable prompting by various people. Thanks guys.</p>
+<p>For several years I was one of the system programmers for the KI10 at La Trobe University in Melbourne Australia. I did get to play with the console panel a couple of times but normally the system was under the control of dedicated operating staff - we weren't supposed to touch. This computer had its own dedicated computer room and provided computing for the Research, Teaching and the Administrative needs of the University. The user base was rather diverse with everyone using RUNOFF to prepare documents, researchers writing programs in FORTRAN, LISP or PROLOG or using statistical packages like SPSS, while administrative programmers produced COBOL applications for payroll, finance and student records. Students seem to dable with everything.</p>
+<p>My main memory from using the system was the lack of recovery in any of the editors, combined with the frequency of reboots caused by system faults or power failures. It became rather common to remind yourself or others to save the current document. Even though that sounds bad I remember sometimes looking forward to making improvements in the code or document as I typed it in the next time.</p>
+<p>Eventually the KI10 was replaced by several VAXes. These were faster, cheaper and more reliable. However they didn't initially have the software maturity of the KI10 and never really provided environments such as LISP and PROLOG the way the PDP-10 did. It was a very sad day when all of the cabinets of the PDP-10 were craned onto a truck and taken away for scrap.</p>
+<p>Writing an emulator for a 36-bit computer in Javascript has special challenges because Javascript provides only 32-bit bit operations. In addition some operands on a KI10 may be up to 71 bits long. As a result bit testing and manipulation must be done with the help of other operators such as division and modulo, and some operands must be split into multiple parts. I hate to think what this does for performance. However if you do encounter performance issues then please consider upgrading your PC. They are significantly faster and cheaper than a real DECsystem-10 and just imagine the savings in power consumption!</p>
+<p>Happy emulating</p>
+<p>Paul Nankervis</p>
+
+<h3>Work in Progress</h3>
+<p>Please note that this emulator is incomplete. Not all floating point instructions are fully operational and what is there still requires simplification, clean up and testing. This is a one person part time hobby project so you will have to be patient.
+
+<h3>Environment</h3>
+<p>This emulator simulates a PDP-10 KI10 running TOPS-10 v6.03A from four RP03 disks, similar to the La Trobe University machine. The operating system is built from software and automated scripts provided by Richard Cornwell at <a href='http://www.sky-visions.com/dec/'>http://www.sky-visions.com/dec/</a>. The login password for account 1,2 is 'FAILSA'. Suggestions for changes or improvements to the emulator can be made by email, but please be aware this is a resource constrained hobby project.
+
+<h3>Example boot</h3>
+<pre style="font-family:'Courier New',Courier,'Lucida Console',Monaco,monospace;font-size:13px;">
+Paul Nankervis - paulnank@hotmail.com
+
+Boot&gt; <b>boot dpa0</b>
+Press RETURN to continue loading BOOTS...
+
+<b>&lt;CR&gt;</b>
+
+KI603 04-21-78
+WHY RELOAD: <b>sched</b>
+DATE: <b>13-dec-78</b>
+TIME: <b>1121</b>
+
+STARTUP OPTION: <b>quick</b>
+
+%CONTROLLER RPA IS OFF-LINE
+
+%CONTROLLER RPB IS OFF-LINE
+
+%CONTROLLER DPB IS OFF-LINE
+
+KI603 11:21:06 CTY system 514
+
+.<b>LOGIN 1,2</b>
+JOB 1 KI603 CTY
+Password: <b>failsa</b>
+1121    13-Dec-78       Wed
+
+.<b>TTY LC WIDTH 132</b>
+
+.<b>dir</b>
+
+BACKUP  EXE   103  &lt;057&gt;   21-Apr-78    2(216)  DSKB:   [1,2]
+OPR     BAK     3  &lt;057&gt;   21-Apr-78
+JOBDAT  REL     1  &lt;057&gt;   21-Apr-78
+OPR     ATO     3  &lt;057&gt;   21-Apr-78
+SYSTEM  EXE   800  &lt;057&gt;   21-Apr-78    603A(20116)
+  Total of 910 blocks in 5 files on DSKB: [1,2]
+
+.<b>r basic</b>
+
+READY, FOR HELP TYPE HELP.
+<b>10 print "Hello world"
+90 end
+run</b>
+
+NONAME        11:21         13-DEC-78
+
+Hello world
+
+TIME:  0.00 SECS.
+
+READY
+<b>save myprog</b>
+
+READY
+<b>system</b>
+
+EXIT
+
+.<b>sos test.for</b>
+Input: TEST.FOR
+00100<b>         write(5,10)</b>
+00200<b>   10    format(12H Hello World)</b>
+00300<b>   90    end</b>
+00400<b>   &ltESC&gt;</b>
+*<b>e</b>
+
+[DSKB:TEST.FOR]
+
+.<b>r fortran</b>
+
+*<b>test,test=test</b>
+MAIN.
+*<b>^Z</b>
+
+.<b>execute test</b>
+LINK:   Loading
+[LNKXCT TEST Execution]
+
+Hello World
+
+END OF EXECUTION
+CPU TIME: 0.00  ELAPSED TIME: 0.00
+EXIT
+
+.<b>r pip</b>
+
+*<b>boot.mac=tt:
+; Javascript PDP KI10 Emulator v1.0
+; written by Paul Nankervis
+; Please send suggestions, fixes and feedback to paulnank@hotmail.com
+......
+stack:
+
+    end start
+^Z</b>
+*<b>^C</b>
+
+.<b>r macro</b>
+
+*<b>boot,boot=boot</b>
+
+NO ERRORS DETECTED
+
+PROGRAM BREAK IS 000000
+ABSOLUTE BREAK IS 037371
+CPU TIME USED 00:00.600
+
+8P CORE USED
+
+*<b>^Z</b>
+
+.<b>load boot</b>
+LINK:   Loading
+
+EXIT
+
+.<b>save boot.sav</b>
+BOOT saved
+
+.<b>r convrt</b>
+
+PDP-10 DIAGNOSTIC ASCIIZER CONVERSION PROGRAM
+VERSION 030.000
+
+TYPE /H&lt;CR&gt; FOR HELP
+FILE: <b>boot.sav</b>
+
+CONVERTING COMPLETED, BLOCKS = 3
+
+EXIT
+
+.<b>type boot.a10</b>
+Z A,Cx@,Cy,LDF
+T I,AP,Cx@,Ood,,C{y,,,,FH@,E,BSE
+T C,A[,C??,Oo`,,LOC
+T ^,Cx@,,HA,N,AD@,X@,N,,F`@,E,C{x,&gt;@,D,Czu,d@,D,CyG,H^@,E,Cz&gt;,d@,D,CyG,H^@,E,,j@,D,C{x,H@,D,Hnq
+...
+T R,C{o,CyD,,,CyP,,,H@@,IP`,H,H@@,KT`,I,C{q,\@,I,C{r,\@,I,F|e
+T F,C{v,Cyq,,,CzM,,,DPF
+T C,C{x,P@,\@,I,KW|
+T ,Cx@,LH@
+
+.<b>dir</b>
+
+BACKUP  EXE   103  &lt;057&gt;   21-Apr-78    2(216)  DSKB:   [1,2]
+OPR     BAK     3  &lt;057&gt;   21-Apr-78
+JOBDAT  REL     1  &lt;057&gt;   21-Apr-78
+OPR     ATO     3  &lt;057&gt;   21-Apr-78
+SYSTEM  EXE   800  &lt;057&gt;   21-Apr-78    603A(20116)
+MYPROG  BAS     1  &lt;157&gt;   13-Dec-78
+TEST    FOR     1  &lt;057&gt;   13-Dec-78
+TEST    LST     1  &lt;057&gt;   13-Dec-78
+TEST    REL     1  &lt;057&gt;   13-Dec-78
+BOOT    MAC    14  &lt;057&gt;   13-Dec-78
+BOOT    REL     4  &lt;057&gt;   13-Dec-78
+BOOT    LST    26  &lt;057&gt;   13-Dec-78
+BOOT    SAV     3  &lt;057&gt;   13-Dec-78
+BOOT    A10     5  &lt;057&gt;   13-Dec-78
+  Total of 966 blocks in 14 files on DSKB: [1,2]
+
+.<b>sys</b>
+
+Status of KI603 at 11:25:28 on 13-Dec-78
+
+Uptime 4:22, 98%Null time = 98%Idle + 0%Lost
+1 Jobs in use out of 64.  1 logged in, 0 detached out of 64.  (LOGMAX)
+
+Job    Who     Line#    What   Size(P)  State   Run Time
+
+ 1    [OPR]     CTY     SYSTAT  14+SPY  RN             3
+
+Swapping space used = 0/1024 = 0%
+Virt. Core used = 14/1024 = 1%
+8002P Core left
+Active swapping ratio = 14/8016 = 0.0
+Average job size =14/1 = 14.0P+0/1 = 0.0P  Total=14/1 = 14.0P
+
+No busy devices
+1 disk DDBs
+
+System File Structures:
+Name    Free    Mount
+DSKB    137857  2
+Total Free 137857
+
+HAPPY BIRTHDAY BILL HARDY
+
+.<b>kjob/f</b>
+Job 1, User [1,2]  Logged off CTY      1125  13-Dec-78
+Runtime 3.09 Sec
+
+
+
+.
+</pre>
+
+<h3>Various KI10 Related References</h3>
+<ul>
+<li><a href=http://www.hakmem.org/pdp-10.html>www.hakmem.org/pdp-10.html</a></li>
+<li><a href=http://pdp10.nocrew.org/docs/instruction-set/pdp-10.html>pdp10.nocrew.org/docs/instruction-set/pdp-10.html</a></li>
+<li><a href=http://bitsavers.org/pdf/dec/pdp10/>bitsavers.org/pdf/dec/pdp10</a></li>
+<li><a href=http://bitsavers.org/pdf/dec/pdp10/TOPS10/>bitsavers.org/pdf/dec/pdp10/TOPS10</a></li>
+<li><a href=http://bitsavers.org/www.computer.museum.uq.edu.au/pdf/>www.computer.museum.uq.edu.au/pdf/</a></li>
+<li><a href=http://bitsavers.informatik.uni-stuttgart.de/pdf/dec/pdp10/TOPS10/>bitsavers.informatik.uni-stuttgart.de/pdf/dec/pdp10/TOPS10/</a></li>
+</ul>
+<h3>Software and Sources</h3>
+<ul>
+<li><a href=http://www.sky-visions.com/dec/tops10.shtml>www.sky-visions.com/dec/tops10.shtml</a></li>
+<li><a href=http://www.sky-visions.com/dec/tops603/>www.sky-visions.com/dec/tops603/</a></li>
+<li><a href=http://pdp-10.trailing-edge.com/>pdp-10.trailing-edge.com/</a></li>
+<li><a href=http://pdp-10.trailing-edge.com/klad_sources/index.html>pdp-10.trailing-edge.com/klad_sources/index.html</a></li>
+<li><a href=http://pdp-10.trailing-edge.com/dec-10-omona-u-mc9/index.html>pdp-10.trailing-edge.com/dec-10-omona-u-mc9/index.html</a></li>
+</ul>
+<h3>Photo of the DECsystem-10 (KI10) at La Trobe University circa 1981
+<p>
+<img src='latrobe_ki10.jpg'>
+</p>
+
+<a href=https://skn.noip.me/pdp10/>Home</a>
+
+<!--
+<script src="diags/diamon.js"></script>
+<script src="diags/subrtn.js"></script>
+<script src="diags/dbkda.js"></script>
+-->
+
+<script>
+setTimeout(main,50); // Kick start this puppy...
+</script>
+</html>
